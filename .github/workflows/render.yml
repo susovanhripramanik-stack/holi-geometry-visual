@@ -1,0 +1,28 @@
+name: Render Holi Geometry Scene
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+
+    container:
+      image: manimcommunity/manim:stable
+      options: --user root
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Render animation
+      run: |
+        manim -ql holi_geometry_scene.py HoliGeometryScene
+
+    - name: Upload video
+      uses: actions/upload-artifact@v4
+      with:
+        name: holi-geometry-video
+        path: media/
